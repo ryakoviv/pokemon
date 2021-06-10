@@ -1,18 +1,19 @@
-import {createSlice} from '@reduxjs/toolkit';
+import {createSlice, PayloadAction} from '@reduxjs/toolkit';
 import {fetchByName} from '../thunks/pokemonThunk';
+import {Pokemon} from "../../models/Pokemon";
 
 export interface PokemonState {
     isLoading: boolean;
     isSuccess: boolean;
     error: string|null;
-    data: object[];
+    data: Pokemon|null;
 }
 
 const initialState: PokemonState = {
     isLoading: false,
     isSuccess: false,
     error: null,
-    data: [],
+    data: null,
 };
 
 export const pokemonSlice = createSlice({
@@ -20,21 +21,23 @@ export const pokemonSlice = createSlice({
     initialState,
     reducers: {
         clear: (state) => {
-            state.data = [];
+            state.data = null;
         }
     },
     extraReducers: (builder) => {
         builder
-            .addCase(fetchByName.pending, (state) => {
+            .addCase(fetchByName.pending, (state: PokemonState) => {
                 state.isLoading = true;
                 state.error = null;
             })
-            .addCase(fetchByName.fulfilled, (state, action) => {
+            .addCase(fetchByName.fulfilled, (state: PokemonState, action: PayloadAction<Pokemon>) => {
                 state.isLoading = false;
+                state.data = action.payload
             })
-            .addCase(fetchByName.rejected, (state, action) => {
+            .addCase(fetchByName.rejected, (state: PokemonState, action) => {
                 state.isLoading = false;
-                state.error = action.payload as string;
+                state.data = null;
+                state.error = action.error.message as string;
             });
     },
 });

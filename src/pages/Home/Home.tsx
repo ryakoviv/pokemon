@@ -1,11 +1,13 @@
 import PokemonSearch from '../../components/PokemonSearch';
-import PokemonList from "../../components/PokemonList";
+import PokemonPreview from "../../components/PokemonPreview";
 
 function Home() {
     return (
         <div>
+            <br/>
             <PokemonSearch/>
-            <PokemonList/>
+            <br/>
+            <PokemonPreview/>
         </div>
     )
 }

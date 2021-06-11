@@ -7,7 +7,9 @@ const convertDataToPokemon = (data: any): Pokemon => {
         image: data.sprite,
         height: data.height,
         weight: data.weight,
-        types: data.types
+        types: data.types,
+        baseStats: data.baseStats,
+        link: data.serebiiPage
     } as Pokemon
 }
 

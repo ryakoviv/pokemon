@@ -3,6 +3,7 @@ import InputGroup from "react-bootstrap/InputGroup";
 import {FormEvent, useState, ChangeEvent} from "react";
 import {useAppDispatch, useAppSelector} from '../../store/hooks';
 import {selectIsLoading, selectError} from '../../store/selectors/pokemonSelectors';
+import {clear} from '../../store/actions/pokemonActions';
 import {fetchByName} from '../../store/thunks/pokemonThunk';
 
 function PokemonSearch() {
@@ -13,7 +14,11 @@ function PokemonSearch() {
 
     const onSubmit = (e: FormEvent): void => {
         e.preventDefault();
-        dispatch(fetchByName(pokemonName));
+        if (pokemonName) {
+            dispatch(fetchByName(pokemonName));
+        } else {
+            dispatch(clear());
+        }
     }
 
     const onChange = (e: ChangeEvent<HTMLInputElement>): void => {
